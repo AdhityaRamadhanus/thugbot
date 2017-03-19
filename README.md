@@ -32,7 +32,8 @@ SLACK_TOKEN=your-token-here
 
 Results
 ------------
-
+![thugbot-1](https://cloud.githubusercontent.com/assets/5761975/24082152/4f2dc7fa-0cf3-11e7-93bd-2ba626192b2a.png)
+![thugbot2](https://cloud.githubusercontent.com/assets/5761975/24082151/4f26ae0c-0cf3-11e7-9424-f871f1c13e13.png)
 
 License
 ----

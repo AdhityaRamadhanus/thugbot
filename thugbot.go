@@ -26,6 +26,7 @@ var (
 	greetingPrefixes = []string{"Hi", "Hello", "Howdy", "Wazzzup", "Hey"}
 )
 
+// Thugbot is the main struct consist of all the sub component including slack api, real-time messaing api and face detector
 type Thugbot struct {
 	ID       string
 	RTM      *slack.RTM
@@ -33,7 +34,8 @@ type Thugbot struct {
 	Detector *thugly.Detector
 }
 
-func NewThugbot(slackToken, configPath string) (*Thugbot, error) {
+// NewThugbot create new Thug bot
+func NewThugbot(slackToken string) (*Thugbot, error) {
 	thugbot := &Thugbot{
 		SlackApi: slack.New(slackToken),
 		Detector: thugly.NewDetector(FaceCascadePath, EyeCascadePath),
@@ -134,6 +136,7 @@ func (t *Thugbot) help(ev *slack.MessageEvent) (err error) {
 	return nil
 }
 
+// Run is main loop function to retrive slack message and process it
 func (t *Thugbot) Run() {
 	t.RTM = t.SlackApi.NewRTM()
 	go t.RTM.ManageConnection()

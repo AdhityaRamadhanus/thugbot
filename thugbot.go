@@ -76,6 +76,9 @@ func (t *Thugbot) thuglify(ev *slack.MessageEvent) (err error) {
 	}()
 	baseImage := DownloadImage(ev.File, os.Getenv("SLACK_TOKEN"))
 	persons := t.Detector.DetectPersons(opencv.FromImage(baseImage))
+	if len(persons) == 0 {
+		return errors.New("Cannot detect faces")
+	}
 	glassesImage, err := thugly.LoadImage(GlassesPath)
 	if err != nil {
 		return errors.Wrap(err, "Failed to load the glsses image")
@@ -83,6 +86,15 @@ func (t *Thugbot) thuglify(ev *slack.MessageEvent) (err error) {
 	bounds := baseImage.Bounds()
 	canvas := image.NewRGBA(bounds)
 	draw.Draw(canvas, bounds, baseImage, bounds.Min, draw.Over)
+	textReg := image.Rect(
+		bounds.Dx()/2-bounds.Dx()/4,
+		bounds.Dy()/2+(bounds.Dy()*45)/100,
+		bounds.Dx()/2+bounds.Dx()/4,
+		bounds.Dy(),
+	)
+	if err := thugly.DrawLabel(canvas, "Deal With It", TextPath, textReg); err != nil {
+		log.Println(err)
+	}
 	for _, person := range persons {
 		eyesReg := person.GetEyesRect()
 		fitGlassImg := imaging.Resize(glassesImage, eyesReg.Dx(), eyesReg.Dy(), imaging.Lanczos)

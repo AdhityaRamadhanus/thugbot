@@ -14,6 +14,7 @@ var (
 	FaceCascadePath = "cascades/haarcascade_frontalface_alt.xml"
 	EyeCascadePath  = "cascades/haarcascade_eye.xml"
 	GlassesPath     = "assets/glasses.png"
+	TextPath        = "assets/impact-regular.ttf"
 )
 
 func main() {
